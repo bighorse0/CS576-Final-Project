@@ -1,46 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.UIElements;
+using Palmmedia.ReportGenerator.Core.Logging;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class PlaneMotion : MonoBehaviour
 {
-    // Start is called before the first frame update
     public float g;
-    public float lift_coefficient;
-    public float mass;
-    public Vector3 position_0;
-    public Vector3 velocity_0;
+    public Vector3 r_0;
+    public Vector3 v_0;
 
-    private Vector3 position;
-    private Vector3 velocity;
+    private float lift_coefficient;
+    private float tilt_inflation_factor;
+    private float  AOA_inflation_factor;
+    private Rigidbody rigid_body;
 
     void Start()
     {
-        g = 9.81f;
         lift_coefficient = 9.78f;
-        position = position_0;
-        velocity = velocity_0;
+        tilt_inflation_factor = 0.2f;
+         AOA_inflation_factor = 0.2f;
+        transform.position = r_0;
+        rigid_body = GetComponent<Rigidbody>();
+        rigid_body.velocity = v_0;
+        Physics.gravity = rigid_body.mass * new Vector3(0.0f, -g, 0.0f);
     }
 
-    void UpdateState(float dt)
-    {
-        Vector3 lift = lift_coefficient * transform.up * ((1 + Mathf.Cos(transform.eulerAngles.z * Mathf.Deg2Rad)) /
-                                                          (2 * Mathf.Cos(transform.eulerAngles.z * Mathf.Deg2Rad)));
-        Vector3 gravity = mass * g * new Vector3(0, -1.0f, 0);
-        Vector3 net_force = lift + gravity;
-
-        position += velocity * dt;
-        velocity += (net_force / mass) * dt;
-
-        transform.position = position;
-    }
-
-    // Update is called once per frame
     void FixedUpdate()
     {
-        UpdateState(Time.deltaTime);
+        UpdateMotion();
+    }
+
+    private void UpdateMotion()
+    {
+        Vector3 base_lift = lift_coefficient * transform.up;
+        float tilt = transform.eulerAngles.z * Mathf.Deg2Rad;
+        float lift_factor = ((1 - tilt_inflation_factor) * Mathf.Cos(tilt) + tilt_inflation_factor) / Mathf.Cos(tilt);
+        Vector3 lift = lift_factor * base_lift;
+        rigid_body.AddForce(lift);
     }
 }
