@@ -4,21 +4,26 @@ using Palmmedia.ReportGenerator.Core.Logging;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class PlaneMotion : MonoBehaviour
 {
     public float g;
     public Vector3 r_0;
     public Vector3 v_0;
+    public Vector3 boost_amt;
+    public Vector3 punish_amt;
 
     private float lift_coefficient;
     private float tilt_inflation_factor;
     private float  AOA_inflation_factor;
     private Rigidbody rigid_body;
 
+    [SerializeField] private GameObject velocity_text;
+
     void Start()
     {
-        lift_coefficient = 9.78f;
+        lift_coefficient = 9.8f;
         tilt_inflation_factor = 0.2f;
          AOA_inflation_factor = 0.2f;
         transform.position = r_0;
@@ -30,6 +35,7 @@ public class PlaneMotion : MonoBehaviour
     void FixedUpdate()
     {
         UpdateMotion();
+        velocity_text.GetComponent<Text>().text = v_0.z.ToString() + "mph";
     }
 
     private void UpdateMotion()
@@ -39,5 +45,16 @@ public class PlaneMotion : MonoBehaviour
         float lift_factor = ((1 - tilt_inflation_factor) * Mathf.Cos(tilt) + tilt_inflation_factor) / Mathf.Cos(tilt);
         Vector3 lift = lift_factor * base_lift;
         rigid_body.AddForce(lift);
+    }
+
+    public void Boost() {
+        v_0 += boost_amt;
+        lift_coefficient += 0.2f;
+        rigid_body.velocity += boost_amt;
+    }
+
+    public void Punish() {
+        v_0 -= punish_amt;
+        rigid_body.velocity -= boost_amt;
     }
 }

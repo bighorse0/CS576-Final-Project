@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class BubbleTrigger : MonoBehaviour
 {
-    [SerializeField] private int hardness;
-    [SerializeField] private GameObject bubble;
+    public int hardness;
+    public GameObject bubble;
+    public float bubble_spawn_dist;
+    public float bubble_spawn_height_offset;
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +49,7 @@ public class BubbleTrigger : MonoBehaviour
             case 0:
                 // Addition
                 correct_answer = operand_one + operand_two;
+                incorrect_answer = Random.Range(0, 2 * correct_answer);
                 while (incorrect_answer == correct_answer) {
                     incorrect_answer = Random.Range(0, 2 * correct_answer);
                 }
@@ -57,6 +60,7 @@ public class BubbleTrigger : MonoBehaviour
             case 1:
                 // Subtraction
                 correct_answer = operand_one - operand_two;
+                incorrect_answer = Random.Range(2 * correct_answer, -2 * correct_answer);
                 if (correct_answer < 0) {
                     while (incorrect_answer == correct_answer) {
                         incorrect_answer = Random.Range(2 * correct_answer, -2 * correct_answer);
@@ -73,6 +77,7 @@ public class BubbleTrigger : MonoBehaviour
             case 2:
                 // Multiplication
                 correct_answer = operand_one * operand_two;
+                incorrect_answer = Random.Range(0, 2 * correct_answer);
                 while (incorrect_answer == correct_answer) {
                     incorrect_answer = Random.Range(0, 2 * correct_answer);
                 }
@@ -82,6 +87,7 @@ public class BubbleTrigger : MonoBehaviour
             case 3:
                 // Division
                 correct_answer = operand_one / operand_two;
+                incorrect_answer = Random.Range(0, 2 * correct_answer);
                 while (incorrect_answer == correct_answer) {
                     incorrect_answer = Random.Range(0, 2 * correct_answer);
                 }
@@ -128,21 +134,21 @@ public class BubbleTrigger : MonoBehaviour
             Dictionary<string, string> prob_and_sols = GenerateProblem();
 
             Vector3 problem_bubble_pos = other.transform.position;
-            problem_bubble_pos.z += 10;
-            problem_bubble_pos.y += 1;
+            problem_bubble_pos.z += bubble_spawn_dist;
+            problem_bubble_pos.y -= bubble_spawn_height_offset;
 
             Vector3 correct_bubble_pos = problem_bubble_pos;
-            correct_bubble_pos.y -= 2;
+            correct_bubble_pos.y -= (bubble_spawn_height_offset + 3);
             Vector3 incorrect_bubble_pos = correct_bubble_pos;
 
             int is_correct_bubble_on_right = Random.Range(0, 2);
             if (is_correct_bubble_on_right == 1) {
-                correct_bubble_pos.x += 2;
-                incorrect_bubble_pos.x -= 2;
+                correct_bubble_pos.x += 3;
+                incorrect_bubble_pos.x -= 3;
             }
             else {
-                correct_bubble_pos.x -= 2;
-                incorrect_bubble_pos.x += 2;
+                correct_bubble_pos.x -= 3;
+                incorrect_bubble_pos.x += 3;
             }
             
             GameObject problem_bubble = Instantiate(bubble, problem_bubble_pos, Quaternion.identity);

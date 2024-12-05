@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - bubble
+  - plane
+  - ground
+  - goal
+  - level_controller
   layers:
   - Default
   - TransparentFX
