@@ -13,8 +13,8 @@ public class BubbleHandler : MonoBehaviour
     [SerializeField] private TextMeshPro bubble_text;
 
     private void Start() {
-        answeredCorrect.AddListener(GameObject.FindGameObjectWithTag("plane").GetComponent<PlaneMotion>().Boost);
-        answeredIncorrect.AddListener(GameObject.FindGameObjectWithTag("plane").GetComponent<PlaneMotion>().Punish);
+        answeredCorrect.AddListener(GameObject.FindGameObjectWithTag("plane").GetComponent<PlaneController>().Boost);
+        answeredIncorrect.AddListener(GameObject.FindGameObjectWithTag("plane").GetComponent<PlaneController>().Punish);
     }
 
     public void SetType(int thing) {
