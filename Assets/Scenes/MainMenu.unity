@@ -901,12 +901,6 @@ MonoBehaviour:
   level_three_button: {fileID: 1841437492}
   level_four_button: {fileID: 377454714}
   level_five_button: {fileID: 150830506}
-  current_level: 1
-  completed_level_one: 1
-  completed_level_two: 0
-  completed_level_three: 0
-  completed_level_four: 0
-  completed_level_five: 0
 --- !u!4 &237105874
 Transform:
   m_ObjectHideFlags: 0

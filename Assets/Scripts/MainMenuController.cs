@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class MainMenuController : MonoBehaviour
 {
@@ -19,34 +20,57 @@ public class MainMenuController : MonoBehaviour
 
     // TODO: [low priority]
     // Read these values from a save file
-    public int current_level;
-    public bool completed_level_one;
-    public bool completed_level_two;
-    public bool completed_level_three;
-    public bool completed_level_four;
-    public bool completed_level_five;
+    private int current_level;
+    private bool completed_level_one;
+    private bool completed_level_two;
+    private bool completed_level_three;
+    private bool completed_level_four;
+    private bool completed_level_five;
+
+    private class SaveObject {
+        public int current_level;
+    }
+
+    // updates completed levels to true up to current level
+    private void UpdateCompletedLevels() {
+        if (current_level > 1) {
+            completed_level_one = true;
+        }
+        if (current_level > 2) {
+            completed_level_two = true;
+        }
+        if (current_level > 3) {
+            completed_level_three = true;
+        }
+        if (current_level > 4) {
+            completed_level_four = true;
+        }
+        if (current_level > 5) {
+            completed_level_five = true;
+        }
+    }
 
     // Sets button corresponding to level number as inactive
-    void deactivate(int level) {
+    private void deactivate(int level) {
         switch (level) {
             case 1:
                 Debug.Log("Deactivating LevelOneButton");
                 level_one_button.gameObject.SetActive(false);
                 break;
             case 2:
-                Debug.Log("Deactivating LevelOneButton");
+                Debug.Log("Deactivating LevelTwoButton");
                 level_two_button.gameObject.SetActive(false);
                 break;
             case 3:
-                Debug.Log("Deactivating LevelOneButton");
+                Debug.Log("Deactivating LevelThreeButton");
                 level_three_button.gameObject.SetActive(false);
                 break;
             case 4:
-                Debug.Log("Deactivating LevelOneButton");
+                Debug.Log("Deactivating LevelFourButton");
                 level_four_button.gameObject.SetActive(false);
                 break;
             case 5:
-                Debug.Log("Deactivating LevelOneButton");
+                Debug.Log("Deactivating LevelFiveButton");
                 level_five_button.gameObject.SetActive(false);
                 break;
             default:
@@ -57,7 +81,7 @@ public class MainMenuController : MonoBehaviour
 
     // Sets button corresponding to level number as active
     // Also sets camera rotation accordingly
-    void activate(int level) {
+    private void activate(int level) {
         switch (level) {
             case 1:
                 Debug.Log("Activating LevelOneButton");
@@ -65,23 +89,23 @@ public class MainMenuController : MonoBehaviour
                 main_camera.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
                 break;
             case 2:
-                Debug.Log("Activating LevelOneButton");
+                Debug.Log("Activating LevelTwoButton");
                 level_two_button.gameObject.SetActive(true);
                 main_camera.transform.rotation = Quaternion.Euler(0.0f, 72.0f, 0.0f);
                 break;
             case 3:
-                Debug.Log("Activating LevelOneButton");
+                Debug.Log("Activating LevelThreeButton");
                 level_three_button.gameObject.SetActive(true);
                 main_camera.transform.rotation = Quaternion.Euler(0.0f, 144.0f, 0.0f);
                 break;
             case 4:
-                Debug.Log("Activating LevelOneButton");
+                Debug.Log("Activating LevelFourButton");
                 level_four_button.gameObject.SetActive(true);
                 main_camera.transform.rotation = Quaternion.Euler(0.0f, 216.0f, 0.0f);
 
                 break;
             case 5:
-                Debug.Log("Activating LevelOneButton");
+                Debug.Log("Activating LevelFiveButton");
                 level_five_button.gameObject.SetActive(true);
                 main_camera.transform.rotation = Quaternion.Euler(0.0f, 288.0f, 0.0f);
                 break;
@@ -91,9 +115,56 @@ public class MainMenuController : MonoBehaviour
         }
     }
 
+    // If a save file exists, initializes fields based on save file
+    // If a not, a default save file is created and fields initialized to default
+    private void LoadSave() {
+        if (File.Exists(Application.dataPath + "/save.txt")) {
+            Debug.Log("Save file found");
+
+            // load string from save file
+            string save_string = File.ReadAllText(Application.dataPath + "/save.txt");
+            // deserialize string back into json
+            SaveObject save_object = JsonUtility.FromJson<SaveObject>(save_string);
+
+            // initialize fields based on save file fields
+            current_level = save_object.current_level;
+            completed_level_one = false;
+            completed_level_two = false;
+            completed_level_three = false;
+            completed_level_four = false;
+            completed_level_five = false;
+            UpdateCompletedLevels();
+
+            Debug.Log("Save loaded from file");
+        }
+        else {
+            Debug.Log("No save file found");
+
+            // initialize new save object fields to default values
+            SaveObject default_save_object = new SaveObject {
+                current_level = 1,
+            };
+
+            // serialize save object as json and save as file 
+            string json = JsonUtility.ToJson(default_save_object);
+            File.WriteAllText(Application.dataPath + "/save.txt", json);
+
+            // initialize fields to default
+            current_level = 1;
+            completed_level_one = false;
+            completed_level_two = false;
+            completed_level_three = false;
+            completed_level_four = false;
+            completed_level_five = false;
+
+            Debug.Log("Created new save file");
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        // open listeners to handle button clicks
         tutorial_button.onClick.AddListener(OpenTutorial);
         prev_lev_button.onClick.AddListener(PreviousLevel);
         next_lev_button.onClick.AddListener(NextLevel);
@@ -103,11 +174,17 @@ public class MainMenuController : MonoBehaviour
         level_four_button.onClick.AddListener(OpenLevelFour);
         level_five_button.onClick.AddListener(OpenLevelFive);
 
+        LoadSave();
+
+        // deactivate all level buttons that aren't the current level
         for (int i = 1; i <= 5; i++) {
             if (i != current_level) {
                 deactivate(i);
             }
         }
+
+        // set current level button as active
+        activate(current_level);
     }
 
     void OpenTutorial() {
