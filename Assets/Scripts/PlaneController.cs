@@ -25,10 +25,11 @@ public class PlaneController : MonoBehaviour
     private float bound_angle_x;
     private float roll_anglur_velocity;
     private Rigidbody RB;
-    [SerializeField] private GameObject velocity_text;
+    private GameObject velocity_text;
 
     void Start()
     {
+        velocity_text = GameObject.FindGameObjectWithTag("velocity_text");
         horizontal_input = 0.0f;
         vertical_input   = 0.0f;
 
