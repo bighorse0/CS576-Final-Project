@@ -9,6 +9,7 @@ TagManager:
   - ground
   - goal
   - level_controller
+  - velocity_text
   layers:
   - Default
   - TransparentFX
