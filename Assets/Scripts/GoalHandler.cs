@@ -7,10 +7,12 @@ public class GoalHandler : MonoBehaviour
 {
     public UnityEvent win;
 
+    [SerializeField] private int level_number;
+
     // Start is called before the first frame update
     void Start()
     {
-        win.AddListener(GameObject.FindGameObjectWithTag("level_controller").GetComponent<UIController>().WinMenu);
+        win.AddListener(GameObject.FindGameObjectWithTag("level_controller").GetComponent<GameController>().Win);
     }
 
     // Update is called once per frame
@@ -22,7 +24,6 @@ public class GoalHandler : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.name.Contains("plane")) {
             win.Invoke();
-            Debug.Log("WIN");
         }
     }
 }

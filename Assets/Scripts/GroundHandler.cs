@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class GroundController : MonoBehaviour
+public class GroundHandler : MonoBehaviour
 {
     public UnityEvent crash;
 
     // Start is called before the first frame update
     void Start()
     {
-        crash.AddListener(GameObject.FindGameObjectWithTag("level_controller").GetComponent<UIController>().FailMenu);
+        crash.AddListener(GameObject.FindGameObjectWithTag("level_controller").GetComponent<GameController>().Fail);
     }
 
     // Update is called once per frame
@@ -22,7 +22,6 @@ public class GroundController : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.name.Contains("plane")) {
             crash.Invoke();
-            Debug.Log("CRASHED");
         }
     }
 }
