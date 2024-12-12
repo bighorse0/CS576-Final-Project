@@ -74,4 +74,8 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
+# save files generated through play
+/[Aa]ssets/save.txt
+/[Aa]ssets/save.txt.meta
+
 # End of https://www.toptal.com/developers/gitignore/api/unity
