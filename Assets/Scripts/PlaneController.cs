@@ -17,6 +17,8 @@ public class PlaneController : MonoBehaviour
     public float gravitational_acc;
     public float boost_amt;
     public float punish_amt;
+    public bool recently_correct;
+    public bool recently_incorrect;
     public Vector3 base_velocity;
 
     private float horizontal_input;
@@ -32,9 +34,11 @@ public class PlaneController : MonoBehaviour
     private float stall_threshold;
     private float recovery_thresold;
     private bool currently_stalling;
+    private bool in_animation;
     private Rigidbody RB;
     private GameObject velocity_text;
     private GameObject stalling_text;
+    //[SerializeField] private GameObject plane_body;
 
     void Start()
     {
@@ -46,15 +50,19 @@ public class PlaneController : MonoBehaviour
         roll_angular_velocity = 0.0f;
 
         base_fov = 60.0f;
-        max_fov = 90.0f;
-        min_fov = 45.0f;
+        max_fov = 100f;
+        min_fov = 30.0f;
         current_fov_rate = 0.0f;
 
         drag_factor = 0.625f;
 
-        currently_stalling = false;
         stall_threshold = 2.0f;
         recovery_thresold = 5.0f;
+        currently_stalling = false;
+        in_animation = false;
+
+        recently_correct = false;
+        recently_incorrect = false;
 
         RB = GetComponent<Rigidbody>();
         RB.velocity = base_velocity;
@@ -62,6 +70,8 @@ public class PlaneController : MonoBehaviour
 
         velocity_text = GameObject.FindGameObjectWithTag("velocity_text");
         stalling_text = GameObject.FindGameObjectWithTag("stalling_text");
+
+        stalling_text.GetComponent<Text>().text = "";
     }
 
     void Update()
@@ -70,6 +80,10 @@ public class PlaneController : MonoBehaviour
           vertical_input = Input.GetAxisRaw("Vertical");
 
         UpdateCamera();
+
+        // Disabled animations because they're too buggy
+        //if (recently_correct && !in_animation) StartCoroutine(AileronRoll());
+        //if (recently_incorrect && !in_animation) StartCoroutine(Turbulence());
     }
 
     void FixedUpdate()
@@ -81,19 +95,57 @@ public class PlaneController : MonoBehaviour
         AlignNoseWithVelocity();
         PrintMechanicalEnergy();
     }
-
+    // Functions for Update
     private void UpdateCamera()
     {
+        // Fix the roll (angle about the z_axis) of the camera
         Vector3 angles   = Camera.main.transform.eulerAngles;
         Vector3 position = Camera.main.transform.position;
         angles.z = 0.0f;
         Camera.main.transform.eulerAngles = angles;
 
+        // Dynamic FOV based on velocity
         float target_fov = (base_fov - min_fov) * (RB.velocity.magnitude / base_velocity.magnitude) + min_fov;
         target_fov = Mathf.Clamp(target_fov, min_fov, max_fov);
         Camera.main.fieldOfView = Mathf.SmoothDamp(Camera.main.fieldOfView, target_fov, ref current_fov_rate, 0.5f);
     }
 
+    //private IEnumerator AileronRoll()
+    //{
+    //    recently_correct = false;
+    //    in_animation = true;
+    //    float angle_rotated = 0.0f;
+    //    float roll_direction = (float)(Random.Range(0, 2) * 2 - 1);
+    //    while (angle_rotated < 360.0f)
+    //    {
+    //        float delta = 180.0f * Time.deltaTime;
+    //        plane_body.transform.Rotate(0.0f, 0.0f, delta);
+    //        angle_rotated += delta;
+    //        yield return null;
+    //    }
+
+    //    plane_body.transform.eulerAngles = Vector3.zero;
+    //    in_animation = false;
+    //}
+    //private IEnumerator Turbulence()
+    //{
+    //    recently_incorrect = false;
+    //    in_animation= true;
+    //    float time_elapsed = 0.0f;
+    //    while (time_elapsed < 1.5f)
+    //    {
+    //        float delta = 200.0f * Time.deltaTime;
+    //        plane_body.transform.Rotate(0.0f, 0.0f, (float)(Random.Range(0, 2) * 2 - 1) * delta);
+    //        time_elapsed += Time.deltaTime;
+    //        yield return null;
+    //    }
+
+    //    plane_body.transform.eulerAngles = Vector3.zero;
+    //    in_animation = false;
+    //}
+
+
+    // Functions for FixedUpdate
     private void UpdateStallingStatus()
     {
         currently_stalling = currently_stalling ? RB.velocity.magnitude < recovery_thresold
@@ -102,12 +154,15 @@ public class PlaneController : MonoBehaviour
 
     private void UpdateVelocityUI()
     {
-        velocity_text.GetComponent<Text>().text = currently_stalling ? "" : RB.velocity.magnitude.ToString() + "mph";
+        velocity_text.GetComponent<Text>().text = currently_stalling ? ""
+                                                : RB.velocity.magnitude.ToString() + "mph";
         stalling_text.GetComponent<Text>().text = currently_stalling ? "Stalling! Trying to pick up speed: " + RB.velocity.magnitude.ToString() + "mph" : "";
     }
 
     private void UpdateRoll()
     {
+        if (in_animation) return;
+
         Vector3 angles = transform.eulerAngles;
         angles.z -= 1.25f * horizontal_input;
 
@@ -131,7 +186,8 @@ public class PlaneController : MonoBehaviour
 
     private void ApplyForce()
     {
-        
+        if (in_animation) return;
+
         float lift_factor  = vertical_input;
         float pitch_angle = (transform.eulerAngles.x > 180.0f ? 360.0f : 0.0f) - transform.eulerAngles.x;
 
@@ -164,9 +220,9 @@ public class PlaneController : MonoBehaviour
     {
         if (RB.velocity.magnitude > 0.0f)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(RB.velocity.normalized, transform.up);
-            targetRotation = Quaternion.Euler(targetRotation.eulerAngles.x, targetRotation.eulerAngles.y, transform.eulerAngles.z);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 2.0f);
+            Quaternion target_rotation = Quaternion.LookRotation(RB.velocity.normalized, transform.up);
+            target_rotation = Quaternion.Euler(target_rotation.eulerAngles.x, target_rotation.eulerAngles.y, transform.eulerAngles.z);
+            transform.rotation = Quaternion.Slerp(transform.rotation, target_rotation, Time.deltaTime * 2.0f);
         }
     }
 
