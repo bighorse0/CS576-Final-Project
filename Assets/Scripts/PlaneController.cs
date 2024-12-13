@@ -21,26 +21,47 @@ public class PlaneController : MonoBehaviour
 
     private float horizontal_input;
     private float vertical_input;
-    private float bound_angle_z; 
+    private float bound_angle_z;
     private float bound_angle_x;
-    private float roll_anglur_velocity;
+    private float roll_angular_velocity;
+    private float base_fov;
+    private float max_fov;
+    private float min_fov; 
+    private float current_fov_rate;
+    private float drag_factor;
+    private float stall_threshold;
+    private float recovery_thresold;
+    private bool currently_stalling;
     private Rigidbody RB;
     private GameObject velocity_text;
+    private GameObject stalling_text;
 
     void Start()
     {
-        velocity_text = GameObject.FindGameObjectWithTag("velocity_text");
         horizontal_input = 0.0f;
         vertical_input   = 0.0f;
 
         bound_angle_z = 30.0f;
         bound_angle_x = 30.0f;
+        roll_angular_velocity = 0.0f;
 
-        roll_anglur_velocity = 0.0f;
+        base_fov = 60.0f;
+        max_fov = 90.0f;
+        min_fov = 45.0f;
+        current_fov_rate = 0.0f;
+
+        drag_factor = 0.625f;
+
+        currently_stalling = false;
+        stall_threshold = 2.0f;
+        recovery_thresold = 5.0f;
 
         RB = GetComponent<Rigidbody>();
         RB.velocity = base_velocity;
         Physics.gravity = new Vector3(0.0f, -gravitational_acc, 0.0f);
+
+        velocity_text = GameObject.FindGameObjectWithTag("velocity_text");
+        stalling_text = GameObject.FindGameObjectWithTag("stalling_text");
     }
 
     void Update()
@@ -48,21 +69,41 @@ public class PlaneController : MonoBehaviour
         horizontal_input = Input.GetAxisRaw("Horizontal");
           vertical_input = Input.GetAxisRaw("Vertical");
 
-        FixedCameraAngle();
+        UpdateCamera();
     }
 
     void FixedUpdate()
     {
-        velocity_text.GetComponent<Text>().text = RB.velocity.magnitude.ToString() + "mph";
-        
-        float v = RB.velocity.magnitude;
-        float V = 0.5f * v * v;
-        float U = gravitational_acc * transform.position.y;
-        Debug.Log("Mechanical Energy: " + V + U);
-
+        UpdateStallingStatus();
+        UpdateVelocityUI();
         UpdateRoll();
         ApplyForce();
         AlignNoseWithVelocity();
+        PrintMechanicalEnergy();
+    }
+
+    private void UpdateCamera()
+    {
+        Vector3 angles   = Camera.main.transform.eulerAngles;
+        Vector3 position = Camera.main.transform.position;
+        angles.z = 0.0f;
+        Camera.main.transform.eulerAngles = angles;
+
+        float target_fov = (base_fov - min_fov) * (RB.velocity.magnitude / base_velocity.magnitude) + min_fov;
+        target_fov = Mathf.Clamp(target_fov, min_fov, max_fov);
+        Camera.main.fieldOfView = Mathf.SmoothDamp(Camera.main.fieldOfView, target_fov, ref current_fov_rate, 0.5f);
+    }
+
+    private void UpdateStallingStatus()
+    {
+        currently_stalling = currently_stalling ? RB.velocity.magnitude < recovery_thresold
+                                                : RB.velocity.magnitude < stall_threshold;
+    }
+
+    private void UpdateVelocityUI()
+    {
+        velocity_text.GetComponent<Text>().text = currently_stalling ? "" : RB.velocity.magnitude.ToString() + "mph";
+        stalling_text.GetComponent<Text>().text = currently_stalling ? "Stalling! Trying to pick up speed: " + RB.velocity.magnitude.ToString() + "mph" : "";
     }
 
     private void UpdateRoll()
@@ -73,7 +114,7 @@ public class PlaneController : MonoBehaviour
         if (horizontal_input == 0 && angles.z > 0)
         {
             float targetAngle = angles.z > 180.0f ? 360.0f : 0.0f;
-            angles.z = Mathf.SmoothDampAngle(angles.z, targetAngle, ref roll_anglur_velocity, 0.3f);
+            angles.z = Mathf.SmoothDampAngle(angles.z, targetAngle, ref roll_angular_velocity, 0.3f);
         }
 
         if (bound_angle_z < angles.z && angles.z < 180.0f)
@@ -88,35 +129,32 @@ public class PlaneController : MonoBehaviour
         transform.eulerAngles = angles;
     }
 
-    private void FixedCameraAngle()
-    {
-        Vector3 angles = Camera.main.transform.eulerAngles;
-        angles.z = 0.0f;
-        Camera.main.transform.eulerAngles = angles;
-    }
     private void ApplyForce()
     {
-
-        Vector3 horizontal_force = horizontal_input * horizontal_rotation_sens * transform.right;
-        Vector3 lift = vertical_rotation_sens * transform.up;
-        Vector3 drag = -1.25f * Mathf.Abs(Mathf.Sin(transform.eulerAngles.x)) * transform.forward;
-
+        
         float lift_factor  = vertical_input;
-        float norm_angle_x = transform.eulerAngles.x - (transform.eulerAngles.x > 180.0f ? 360.0f : 0.0f);
+        float pitch_angle = (transform.eulerAngles.x > 180.0f ? 360.0f : 0.0f) - transform.eulerAngles.x;
 
-        if (bound_angle_x <= norm_angle_x)
+        // If pitch is too low, prevent the player from pitching the plane downward
+        if (pitch_angle <= -bound_angle_x)
         {
             lift_factor = Mathf.Max(vertical_input, 0.0f);
         }
-        else if (norm_angle_x <= -bound_angle_x)
+
+        // Similarly for high pitch
+        else if (bound_angle_x <= pitch_angle)
         {
             lift_factor = Mathf.Min(vertical_input, 0.0f);
         }
 
-        lift *= lift_factor;
+        if (currently_stalling)
+        {
+            lift_factor = 0.0f;
+        }
 
-        Debug.Log(transform.eulerAngles.x);
-
+        Vector3 horizontal_force = horizontal_input * horizontal_rotation_sens * transform.right;
+        Vector3 lift = lift_factor * vertical_rotation_sens * transform.up;
+        Vector3 drag = -drag_factor * gravitational_acc * Mathf.Abs(Mathf.Sin(transform.eulerAngles.x)) * transform.forward;
         Vector3 net_force = horizontal_force + lift + drag;
 
         RB.AddForce(net_force);
@@ -130,6 +168,13 @@ public class PlaneController : MonoBehaviour
             targetRotation = Quaternion.Euler(targetRotation.eulerAngles.x, targetRotation.eulerAngles.y, transform.eulerAngles.z);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 2.0f);
         }
+    }
+
+    private void PrintMechanicalEnergy()
+    {
+        float V = 0.5f * Mathf.Pow(RB.velocity.magnitude, 2.0f);
+        float U = gravitational_acc * transform.position.y;
+        Debug.Log("Mechanical Energy: " + V + U);
     }
 
     public void Boost()
