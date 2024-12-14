@@ -46,8 +46,8 @@ public class PlaneController : MonoBehaviour
         roll_angular_velocity = 0.0f;
 
         base_fov = 60.0f;
-        max_fov = 90.0f;
-        min_fov = 45.0f;
+        max_fov = 120.0f;
+        min_fov = 30.0f;
         current_fov_rate = 0.0f;
 
         drag_factor = 0.625f;
@@ -89,7 +89,7 @@ public class PlaneController : MonoBehaviour
         angles.z = 0.0f;
         Camera.main.transform.eulerAngles = angles;
 
-        float target_fov = (base_fov - min_fov) * (RB.velocity.magnitude / base_velocity.magnitude) + min_fov;
+        float target_fov = (base_fov - min_fov) * (RB.velocity.magnitude / 10.0f) + min_fov;
         target_fov = Mathf.Clamp(target_fov, min_fov, max_fov);
         Camera.main.fieldOfView = Mathf.SmoothDamp(Camera.main.fieldOfView, target_fov, ref current_fov_rate, 0.5f);
     }
@@ -108,6 +108,8 @@ public class PlaneController : MonoBehaviour
 
     private void UpdateRoll()
     {
+        if (currently_stalling) return;
+
         Vector3 angles = transform.eulerAngles;
         angles.z -= 1.25f * horizontal_input;
 
@@ -131,7 +133,7 @@ public class PlaneController : MonoBehaviour
 
     private void ApplyForce()
     {
-        
+        float horizontal_factor = horizontal_input;
         float lift_factor  = vertical_input;
         float pitch_angle = (transform.eulerAngles.x > 180.0f ? 360.0f : 0.0f) - transform.eulerAngles.x;
 
@@ -149,6 +151,7 @@ public class PlaneController : MonoBehaviour
 
         if (currently_stalling)
         {
+            horizontal_factor = 0.0f;
             lift_factor = 0.0f;
         }
 
