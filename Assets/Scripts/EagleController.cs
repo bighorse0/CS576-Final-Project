@@ -13,7 +13,7 @@ public class EagleController : MonoBehaviour
     public UnityEvent eagle_hit;
     public UnityEvent eagle_miss;
 
-    public int num_attacks;
+    public int max_attacks;
 
     private Animator animator;
     private AudioSource source;
@@ -30,7 +30,7 @@ public class EagleController : MonoBehaviour
 
     private float frozen_y;
 
-    [SerializeField] private int max_attaacks;
+    private int num_attacks;
 
     // Start is called before the first frame update
     void Start()
@@ -47,7 +47,7 @@ public class EagleController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (num_attacks >= max_attaacks && !isFlyingOut) {
+        if (num_attacks >= max_attacks && !isFlyingOut) {
             StartCoroutine(FlyOut());
         }
 

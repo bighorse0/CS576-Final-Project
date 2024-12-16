@@ -11,6 +11,11 @@ public class Bat : MonoBehaviour
     public float birth_time;
     public UnityEvent bat_hit;
 
+    public AudioClip bat_fly;
+    public AudioClip bat_hit_sound;
+
+    private AudioSource source;
+
     private PlaneController plane_controller;
 
     // Start is called before the first frame update
@@ -18,12 +23,14 @@ public class Bat : MonoBehaviour
     {
         plane_controller = GameObject.FindGameObjectWithTag("plane").GetComponent<PlaneController>();
         bat_hit.AddListener(plane_controller.Punish);
+        source = GetComponent<AudioSource>();
+        StartCoroutine(Wings());
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Time.time - birth_time > 10.0f)
+        if (Time.time - birth_time > 5.0f)
         {
             Destroy(transform.gameObject);
         }
@@ -34,7 +41,7 @@ public class Bat : MonoBehaviour
     {
         if (other.gameObject.name.Contains("plane")) {
             Debug.Log("BAT HIT PLANE");
-            Destroy(gameObject);
+            source.PlayOneShot(bat_hit_sound);
             bat_hit.Invoke();
         }
         else if (other.gameObject.name.Contains("bat")) {
@@ -42,6 +49,14 @@ public class Bat : MonoBehaviour
         }
         else {
             Destroy(gameObject);
+        }
+    }
+
+    IEnumerator Wings() {
+        float clip_len = bat_fly.length;
+        while (true) {
+            source.PlayOneShot(bat_fly);
+            yield return new WaitForSeconds(clip_len);
         }
     }
 }
