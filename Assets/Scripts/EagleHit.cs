@@ -25,7 +25,7 @@ public class EagleHit : MonoBehaviour
             Debug.Log("HIT");
             source.PlayOneShot(eagle_hit);
 
-            // TODO: HANDLE PLANE VELOCITY DECREASE ON HIT
+            transform.parent.GetComponent<EagleController>().Hit();
         }
     }
 }

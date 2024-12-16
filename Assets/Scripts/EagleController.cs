@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
 
 public class EagleController : MonoBehaviour
 {
@@ -8,9 +10,15 @@ public class EagleController : MonoBehaviour
     public AudioClip eagle_screech;
     public AudioClip eagle_woosh;
 
+    public UnityEvent eagle_hit;
+    public UnityEvent eagle_miss;
+
+    public int num_attacks;
+
     private Animator animator;
     private AudioSource source;
     private GameObject plane;
+    private PlaneController plane_controller;
 
     private bool isFlyingIn = true;
     private bool isCaughtUp = false;
@@ -18,9 +26,9 @@ public class EagleController : MonoBehaviour
     private bool isAttacking = false;
     private bool isFlyingOut = false;
     private bool isScreeching = false;
+    private bool gotHit = false;
 
     private float frozen_y;
-    private int num_attacks = 0;
 
     [SerializeField] private int max_attaacks;
 
@@ -30,6 +38,9 @@ public class EagleController : MonoBehaviour
         source = GetComponent<AudioSource>();
         animator = GetComponentInChildren<Animator>();
         plane = GameObject.FindGameObjectWithTag("plane");
+        plane_controller = plane.GetComponent<PlaneController>();
+        eagle_hit.AddListener(plane_controller.Punish);
+        eagle_miss.AddListener(plane_controller.Boost);
         StartCoroutine(FlyIn());
     }
 
@@ -122,6 +133,7 @@ public class EagleController : MonoBehaviour
     }
 
     private void Attack() {
+        gotHit = false;
         Debug.Log("EAGLE Attacking");
         frozen_y = transform.position.y;
         isAttacking = true;
@@ -135,6 +147,14 @@ public class EagleController : MonoBehaviour
 		isAttacking = false;
         isMoving = false;
         num_attacks++;
+        if (gotHit) {
+            Debug.Log("HIT");
+            eagle_hit.Invoke();
+        }
+        else {
+            Debug.Log("MISS");
+            eagle_miss.Invoke();
+        }
 	}
 
     IEnumerator FlyOut() {
@@ -174,5 +194,9 @@ public class EagleController : MonoBehaviour
     }
 
     public void DealDamage(DealDamageComponent comp) {
+    }
+
+    public void Hit() {
+        gotHit = true;
     }
 }

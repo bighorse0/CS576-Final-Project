@@ -6,6 +6,7 @@ public class EagleTrigger : MonoBehaviour
 {
 
     [SerializeField] GameObject eagle;
+    [SerializeField] int number_of_attacks;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +27,8 @@ public class EagleTrigger : MonoBehaviour
             eagle_spawn_pos.z -= 10;
             eagle_spawn_pos.y += 10;
             GameObject enemy_eagle = Instantiate(eagle, eagle_spawn_pos, Quaternion.Euler(-28f, 180f, 0f));
+            enemy_eagle.GetComponent<EagleController>().num_attacks = number_of_attacks;
+
         }
     }
 }
