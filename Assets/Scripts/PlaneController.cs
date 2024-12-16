@@ -20,6 +20,7 @@ public class PlaneController : MonoBehaviour
     public bool recently_correct;
     public bool recently_incorrect;
     public Vector3 base_velocity;
+    public Vector3 movement_direction;
 
     private float horizontal_input;
     private float vertical_input;
@@ -35,7 +36,7 @@ public class PlaneController : MonoBehaviour
     private float recovery_thresold;
     private bool currently_stalling;
     private bool in_animation;
-    private Rigidbody RB;
+    public Rigidbody RB;
     private GameObject velocity_text;
     private GameObject stalling_text;
     //[SerializeField] private GameObject plane_body;
@@ -80,6 +81,12 @@ public class PlaneController : MonoBehaviour
           vertical_input = Input.GetAxisRaw("Vertical");
 
         UpdateCamera();
+
+        // for use in bat npc
+        float xdirection = Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.y);
+        float ydirection = Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.x);
+        float zdirection = Mathf.Cos(Mathf.Deg2Rad * transform.rotation.eulerAngles.y);
+        movement_direction = new Vector3(xdirection, ydirection, zdirection);
 
         // Disabled animations because they're too buggy
         //if (recently_correct && !in_animation) StartCoroutine(AileronRoll());
@@ -230,7 +237,7 @@ public class PlaneController : MonoBehaviour
     {
         float V = 0.5f * Mathf.Pow(RB.velocity.magnitude, 2.0f);
         float U = gravitational_acc * transform.position.y;
-        Debug.Log("Mechanical Energy: " + V + U);
+        //Debug.Log("Mechanical Energy: " + V + U);
     }
 
     public void Boost()
