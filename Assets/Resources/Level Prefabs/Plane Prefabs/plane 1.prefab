@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1062015324480349541}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.48999977, z: -2.56}
+  m_LocalPosition: {x: 0, y: 0.6, z: -2.45}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -148,6 +148,22 @@ PrefabInstance:
       propertyPath: m_TagString
       value: plane
       objectReference: {fileID: 0}
+    - target: {fileID: 1151388028547126963, guid: 5b5d2b889f1cd0645a3c95773c9a1de7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1151388028547126963, guid: 5b5d2b889f1cd0645a3c95773c9a1de7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1151388028547126963, guid: 5b5d2b889f1cd0645a3c95773c9a1de7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1151388028547126963, guid: 5b5d2b889f1cd0645a3c95773c9a1de7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -165,6 +181,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 5595243321482039189}
   m_SourcePrefab: {fileID: 100100000, guid: 5b5d2b889f1cd0645a3c95773c9a1de7, type: 3}
+--- !u!1 &1543008139734954075 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8164078558771037576, guid: 5b5d2b889f1cd0645a3c95773c9a1de7, type: 3}
+  m_PrefabInstance: {fileID: 7216314217129735635}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7183178692777153080 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5b5d2b889f1cd0645a3c95773c9a1de7, type: 3}
@@ -192,7 +213,10 @@ MonoBehaviour:
   gravitational_acc: 2
   boost_amt: 4
   punish_amt: 2
+  recently_correct: 0
+  recently_incorrect: 0
   base_velocity: {x: 0, y: 0, z: 10}
+  plane_body: {fileID: 1543008139734954075}
 --- !u!54 &2900520360520883311
 Rigidbody:
   m_ObjectHideFlags: 0
