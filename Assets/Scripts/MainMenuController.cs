@@ -9,7 +9,10 @@ public class MainMenuController : MonoBehaviour
 {
     public Camera main_camera;
 
+    public GameObject tutorial;
+
     public Button tutorial_button;
+    public Button exit_tutorial_button;
     public Button prev_lev_button;
     public Button next_lev_button;
     public Button level_one_button;
@@ -164,8 +167,11 @@ public class MainMenuController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        tutorial.gameObject.SetActive(false);
+
         // open listeners to handle button clicks
         tutorial_button.onClick.AddListener(OpenTutorial);
+        exit_tutorial_button.onClick.AddListener(ExitTutorial);
         prev_lev_button.onClick.AddListener(PreviousLevel);
         next_lev_button.onClick.AddListener(NextLevel);
         level_one_button.onClick.AddListener(OpenLevelOne);
@@ -188,7 +194,11 @@ public class MainMenuController : MonoBehaviour
     }
 
     void OpenTutorial() {
-        // TODO: Figure out what to do here
+        tutorial.gameObject.SetActive(true);
+    }
+
+    void ExitTutorial() {
+        tutorial.gameObject.SetActive(false);
     }
 
     void PreviousLevel() {

@@ -17,6 +17,13 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject fail_background;
     [SerializeField] private GameObject win_background;
 
+    private AudioSource source;
+    public AudioClip wind;
+    public AudioClip crash;
+    public AudioClip win_sound;
+
+    private bool is_playing;
+
     private class SaveObject {
         public int current_level;
     }
@@ -24,6 +31,8 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        source = GetComponent<AudioSource>();
+
         // Initialize UI element visibilities
         try_again_button.onClick.AddListener(TryAgain);
         try_again_button.gameObject.SetActive(false);
@@ -35,6 +44,9 @@ public class GameController : MonoBehaviour
         menu_text.gameObject.SetActive(false);
         fail_background.gameObject.SetActive(false);
         win_background.gameObject.SetActive(false);
+
+        is_playing = true;
+        StartCoroutine(PlayWindSound());
     }
 
     // Update is called once per frame
@@ -86,6 +98,9 @@ public class GameController : MonoBehaviour
     public void Fail() {
         Debug.Log("Fail");
 
+        source.Stop();
+        is_playing = false;
+        source.PlayOneShot(crash);
         // Set visibility of UI elements for failing screen
         velocity_text.gameObject.SetActive(false);
         fail_background.gameObject.SetActive(true);
@@ -99,6 +114,9 @@ public class GameController : MonoBehaviour
     public void Win() {
         Debug.Log("Win");
 
+        source.Stop();
+        is_playing = false;
+        source.PlayOneShot(win_sound);
         // Set visibility of UI elements for winning screen
         velocity_text.gameObject.SetActive(false);
         win_background.gameObject.SetActive(true);
@@ -132,5 +150,15 @@ public class GameController : MonoBehaviour
         Debug.Log("Loading Next Level");
         string next_level_string = "Level_" + (level_number + 1);
         SceneManager.LoadScene(next_level_string);
+    }
+
+    IEnumerator PlayWindSound() {
+        float wind_length = wind.length;
+        while (true) {
+            if (is_playing) {
+                source.PlayOneShot(wind, 2f);
+            }
+            yield return new WaitForSeconds(wind_length);
+        }
     }
 }
