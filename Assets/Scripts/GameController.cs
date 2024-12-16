@@ -72,6 +72,10 @@ public class GameController : MonoBehaviour
                 save_object.current_level = (level_number + 1);
             } 
 
+            if (level_number == 5) {
+                save_object.current_level = 5;
+            }
+
             // serialize save object back into json and save to file
             string json = JsonUtility.ToJson(save_object);
             File.WriteAllText(Application.dataPath + "/save.txt", json);
@@ -85,6 +89,10 @@ public class GameController : MonoBehaviour
             SaveObject save_object = new SaveObject {
                 current_level = (level_number + 1)
             };
+
+            if (level_number == 5) {
+                save_object.current_level = 5;
+            }
 
             // serialize save object into json and save to file
             string json = JsonUtility.ToJson(save_object);
