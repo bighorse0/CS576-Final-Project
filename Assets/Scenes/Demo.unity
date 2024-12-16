@@ -6258,12 +6258,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6143698857538337737, guid: 0123640f264978140adcb6cf66cefff0, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 8619254761765829956, guid: 0123640f264978140adcb6cf66cefff0, type: 3}
       propertyPath: m_Name
       value: GameController
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 8202937184438384446, guid: 0123640f264978140adcb6cf66cefff0, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0123640f264978140adcb6cf66cefff0, type: 3}
@@ -6284,6 +6289,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3621173591946684759, guid: 443644793b6b07d4d990d7e6c7df5ab6, type: 3}
+      propertyPath: drag_factor
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3621173591946684759, guid: 443644793b6b07d4d990d7e6c7df5ab6, type: 3}
       propertyPath: base_velocity.z
       value: 10
       objectReference: {fileID: 0}
@@ -6294,6 +6303,14 @@ PrefabInstance:
     - target: {fileID: 3621173591946684759, guid: 443644793b6b07d4d990d7e6c7df5ab6, type: 3}
       propertyPath: vertical_rotation_sens
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5831006897491526250, guid: 443644793b6b07d4d990d7e6c7df5ab6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5831006897491526250, guid: 443644793b6b07d4d990d7e6c7df5ab6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.35
       objectReference: {fileID: 0}
     - target: {fileID: 7183178692777153080, guid: 443644793b6b07d4d990d7e6c7df5ab6, type: 3}
       propertyPath: m_LocalPosition.x

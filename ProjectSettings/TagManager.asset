@@ -10,6 +10,7 @@ TagManager:
   - goal
   - level_controller
   - velocity_text
+  - stalling_text
   layers:
   - Default
   - TransparentFX
