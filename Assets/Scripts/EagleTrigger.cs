@@ -27,7 +27,7 @@ public class EagleTrigger : MonoBehaviour
             eagle_spawn_pos.z -= 10;
             eagle_spawn_pos.y += 10;
             GameObject enemy_eagle = Instantiate(eagle, eagle_spawn_pos, Quaternion.Euler(-28f, 180f, 0f));
-            enemy_eagle.GetComponent<EagleController>().num_attacks = number_of_attacks;
+            enemy_eagle.GetComponent<EagleController>().max_attacks = number_of_attacks;
 
         }
     }
