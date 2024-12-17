@@ -26,7 +26,7 @@ public class RoundaboutHandler : MonoBehaviour
         transform.position = position;
         Vector3 radius_vector = center - position;
         RB.AddForce(1225.0f / radius_vector.magnitude * radius_vector.normalized);
-        RB.AddForce(new Vector3(0.0f, 2.0f, 0.0f));
+        RB.AddForce(new Vector3(0.0f, 1.7f, 0.0f));
         AlignNoseWithVelocity();
     }
 
