@@ -85,7 +85,7 @@ public class BubbleTrigger : MonoBehaviour
                     correct_answer / 2,
                     correct_answer / 10
                 };
-                incorrect_answer = possible_incorrect_answers[Random.Range(0, 11)];
+                incorrect_answer = possible_incorrect_answers[Random.Range(0, 6)];
 
                 problem = operand_one.ToString() + " * " + operand_two.ToString() + " = ?";
                 break;
