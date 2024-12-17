@@ -6558,7 +6558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd659b4b3b5b9542a6f261468ae350e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hardness: 1
+  hardness: 3
   bubble: {fileID: 7375971506316085377, guid: baae75bbc72905242a21e35c382cb89b, type: 3}
   bubble_spawn_dist: 50
   bubble_spawn_height_offset: 1
@@ -18726,7 +18726,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3621173591946684759, guid: 443644793b6b07d4d990d7e6c7df5ab6, type: 3}
       propertyPath: boost_amt
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3621173591946684759, guid: 443644793b6b07d4d990d7e6c7df5ab6, type: 3}
       propertyPath: base_velocity.z
