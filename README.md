@@ -23,7 +23,8 @@ This project is currently working on version 2022.3.46f1
 - City Scene
 
 **Nguyen Nguyen:**
-- 
+- MinionProjectile.cs
+- MinionAttack.cs
 
 **Drew Storey:**
 - pause.cs
@@ -70,6 +71,8 @@ This project is currently working on version 2022.3.46f1
  	- Music:
     	 	- Title:Walking Home by Alex-Productions
 	 	- URL: https://www.chosic.com/download-audio/58158/
+            - Title:Tense Sad Piano
+        - URL: https://pixabay.com/music/modern-classical-tense-sad-piano-111679/
      	- Scenery:
       		- https://kenney.nl/assets/holiday-kit
         	- https://kenney.nl/assets/platformer-kit
