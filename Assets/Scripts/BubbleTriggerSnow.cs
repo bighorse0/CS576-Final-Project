@@ -54,10 +54,9 @@ public class BubbleTriggerSnow : MonoBehaviour
                 // Addition
                 correct_answer = operand_one + operand_two;
                 incorrect_answer = Random.Range(0, 2 * correct_answer);
-                while (incorrect_answer == correct_answer) {
-                    incorrect_answer = Random.Range(0, 2 * correct_answer);
+                if (incorrect_answer == correct_answer) {
+                    incorrect_answer++;
                 }
-                
 
                 problem = operand_one.ToString() + " + " + operand_two.ToString() + " = ?";
                 break;
@@ -65,35 +64,46 @@ public class BubbleTriggerSnow : MonoBehaviour
                 // Subtraction
                 correct_answer = operand_one - operand_two;
                 incorrect_answer = Random.Range(2 * correct_answer, -2 * correct_answer);
-                if (correct_answer < 0) {
-                    while (incorrect_answer == correct_answer) {
-                        incorrect_answer = Random.Range(2 * correct_answer, -2 * correct_answer);
-                    }
-                }
-                else {
-                    while (incorrect_answer == correct_answer) {
-                        incorrect_answer = Random.Range(-2 * correct_answer, 2 * correct_answer);
-                    }
+                if (incorrect_answer == correct_answer) {
+                    incorrect_answer++;
                 }
 
                 problem = operand_one.ToString() + " - " + operand_two.ToString() + " = ?";
                 break;
             case 2:
                 // Multiplication
-                correct_answer = operand_one * operand_two;
-                incorrect_answer = Random.Range(0, 2 * correct_answer);
-                while (incorrect_answer == correct_answer) {
-                    incorrect_answer = Random.Range(0, 2 * correct_answer);
+                if (operand_one % 10 == 0 || range == 10) {
+                    operand_two = Random.Range(0, range);
                 }
+                else {
+                    int[] possible_mults = new int[] {0, 1, 2, 10, 100, range};
+                    operand_two = possible_mults[Random.Range(0, 5)];
+                }
+                correct_answer = operand_one * operand_two;
+
+                int[] possible_incorrect_answers = new int[] {
+                    correct_answer - 10,
+                    correct_answer + 10,
+                    correct_answer * 2,
+                    correct_answer * 10,
+                    correct_answer / 2,
+                    correct_answer / 10
+                };
+                incorrect_answer = possible_incorrect_answers[Random.Range(0, 11)];
 
                 problem = operand_one.ToString() + " * " + operand_two.ToString() + " = ?";
                 break;
             case 3:
                 // Division
-                correct_answer = operand_one / operand_two;
+                operand_two = Random.Range(1, range);
+                while (operand_one % operand_two != 0) {
+                    operand_one = Random.Range(0, range);
+                    operand_two = Random.Range(1, range);
+                }
+                correct_answer = (operand_one / operand_two);
                 incorrect_answer = Random.Range(0, 2 * correct_answer);
-                while (incorrect_answer == correct_answer) {
-                    incorrect_answer = Random.Range(0, 2 * correct_answer);
+                if (incorrect_answer == correct_answer) {
+                    incorrect_answer++;
                 }
 
                 problem = operand_one.ToString() + " / " + operand_two.ToString() + " = ?";
