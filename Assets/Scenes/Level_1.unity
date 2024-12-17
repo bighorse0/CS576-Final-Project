@@ -18725,20 +18725,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3621173591946684759, guid: 443644793b6b07d4d990d7e6c7df5ab6, type: 3}
-      propertyPath: boost_amt
-      value: 4
-      objectReference: {fileID: 0}
+      propertyPath: correct
+      value: 
+      objectReference: {fileID: 8300000, guid: 4ab6280b23ae046c392500d25117ee00, type: 3}
     - target: {fileID: 3621173591946684759, guid: 443644793b6b07d4d990d7e6c7df5ab6, type: 3}
-      propertyPath: base_velocity.z
-      value: 10
-      objectReference: {fileID: 0}
+      propertyPath: incorrect
+      value: 
+      objectReference: {fileID: 8300000, guid: 45f3f2191e0d74eae8697e058bcb999b, type: 3}
     - target: {fileID: 3621173591946684759, guid: 443644793b6b07d4d990d7e6c7df5ab6, type: 3}
       propertyPath: gravitational_acc
       value: 1.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3621173591946684759, guid: 443644793b6b07d4d990d7e6c7df5ab6, type: 3}
-      propertyPath: vertical_rotation_sens
-      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5595243321482039189, guid: 443644793b6b07d4d990d7e6c7df5ab6, type: 3}
       propertyPath: m_Size.z
