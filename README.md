@@ -52,7 +52,7 @@ This project is currently working on version 2022.3.46f1
 		- Eagle Wing Sound: https://freesound.org/people/ani_music/sounds/244982/
 		- Eagle Attack Sound: https://www.youtube.com/watch?v=N3CALZudhkI
 		- Eagle Hit Sound: https://www.youtube.com/watch?v=AnNmFUoWsig
-	- Bat Model/Animationshttps://assetstore.unity.com/packages/3d/characters/creatures/level-1-monster-pack-77703
+	- Bat Model/Animations: https://assetstore.unity.com/packages/3d/characters/creatures/level-1-monster-pack-77703
 		- Bat Flying Sound: https://www.youtube.com/watch?v=hm8uMQmi2lw
 - Level_2 Scenery: 
 - Level_3 Scenery: https://kenney.nl/assets/mini-dungeon
