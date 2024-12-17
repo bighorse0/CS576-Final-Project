@@ -16,7 +16,7 @@ public class MinionAttack: MonoBehaviour
     void Start()
     {
         plane = GameObject.FindGameObjectWithTag("plane");
-        shooting_delay = 0.5f;  
+        shooting_delay = 1f;  
         direction_from_minion_to_plane = new Vector3(0.0f, 0.0f, 0.0f);
         projectile_starting_pos = new Vector3(0.0f, 0.0f, 0.0f);
         projectile_velocity = 25.0f;
@@ -27,7 +27,7 @@ public class MinionAttack: MonoBehaviour
         void Update()
     {
         Vector3 plane_centroid = plane.GetComponent<BoxCollider>().bounds.center;
-        Vector3 spawner_centroid = GetComponent<BoxCollider>().bounds.center;
+        Vector3 spawner_centroid = GetComponent<Collider>().bounds.center;
         direction_from_minion_to_plane = plane_centroid - spawner_centroid;
         direction_from_minion_to_plane.Normalize();
 
@@ -79,6 +79,9 @@ public class MinionAttack: MonoBehaviour
                     bullet.GetComponent<MinionProjectile>().direction = shooting_direction;
                     bullet.GetComponent<MinionProjectile>().velocity = projectile_velocity;
                     bullet.GetComponent<MinionProjectile>().birth_time = Time.time;
+                    Debug.Log($"shooting_direction: {shooting_direction}, magnitude: {shooting_direction.magnitude}");
+                    Debug.Log($"projectile_velocity: {projectile_velocity}");
+                    Debug.Log($"projectile_starting_pos: {projectile_starting_pos}");
                 }
             }
             yield return new WaitForSeconds(shooting_delay);
