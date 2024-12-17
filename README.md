@@ -8,6 +8,10 @@ This project is currently working on version 2022.3.46f1
 
 **Willy Chen:**
 - PlaneController.cs
+- BossTrigger.cs, BossHandler.cs
+- RoundaboutHandler.cs
+- TrafficLightsTrigger.cs
+- TruckKunTrigger.cs, TruckKunHandler.cs
 
 **Nguyen Nguyen:**
 - 
@@ -29,10 +33,19 @@ This project is currently working on version 2022.3.46f1
 
 ## Sources
 - Plane Model: https://sketchfab.com/3d-models/paper-plane-c8d4716dd4cb4da7b00eed5a632e2e2
+- Main Menu Music: https://onemansymphony.bandcamp.com/album/a-new-days-hurry-free
+- Pause Menu Music: https://pixabay.com/sound-effects/intense-fantasy-soundtrack-201079/
+- Correct Answer Sound Effect: https://pixabay.com/sound-effects/magic-ascend-3-259526/
+- Wrong Answer Sound Effect: https://pixabay.com/sound-effects/wrong-answer-21-199825/
+- Crash Sound Effect: https://freesound.org/people/drooler/sounds/508594/
+- Win Sound Effect: https://freesound.org/people/Fupicat/sounds/521645/
 - Level_1 Scenery: https://kenney.nl/assets/nature-kit
 - Level_2 Scenery: 
-- Level_3 Scenery: 
+- Level_3 Scenery: https://kenney.nl/assets/mini-dungeon
 - Level_4 Scenery: 
+	- https://kenney.nl/assets/city-kit-commercial 
+	- https://kenney.nl/assets/car-kit
+	- https://kenney.nl/assets/city-kit-roads
 - Level_5 Scenery: https://kenney.nl/assets/fantasy-town-kit
 - Eagle Model/Animations: https://assetstore.unity.com/packages/3d/characters/animals/birds/egypt-pack-eagle-140079
 	- Eagle Screech Sound: https://www.youtube.com/watch?v=OLn1i0UxQGE

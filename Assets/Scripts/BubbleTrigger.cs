@@ -50,10 +50,9 @@ public class BubbleTrigger : MonoBehaviour
                 // Addition
                 correct_answer = operand_one + operand_two;
                 incorrect_answer = Random.Range(0, 2 * correct_answer);
-                while (incorrect_answer == correct_answer) {
-                    incorrect_answer = Random.Range(0, 2 * correct_answer);
+                if (incorrect_answer == correct_answer) {
+                    incorrect_answer++;
                 }
-                
 
                 problem = operand_one.ToString() + " + " + operand_two.ToString() + " = ?";
                 break;
@@ -61,35 +60,46 @@ public class BubbleTrigger : MonoBehaviour
                 // Subtraction
                 correct_answer = operand_one - operand_two;
                 incorrect_answer = Random.Range(2 * correct_answer, -2 * correct_answer);
-                if (correct_answer < 0) {
-                    while (incorrect_answer == correct_answer) {
-                        incorrect_answer = Random.Range(2 * correct_answer, -2 * correct_answer);
-                    }
-                }
-                else {
-                    while (incorrect_answer == correct_answer) {
-                        incorrect_answer = Random.Range(-2 * correct_answer, 2 * correct_answer);
-                    }
+                if (incorrect_answer == correct_answer) {
+                    incorrect_answer++;
                 }
 
                 problem = operand_one.ToString() + " - " + operand_two.ToString() + " = ?";
                 break;
             case 2:
                 // Multiplication
-                correct_answer = operand_one * operand_two;
-                incorrect_answer = Random.Range(0, 2 * correct_answer);
-                while (incorrect_answer == correct_answer) {
-                    incorrect_answer = Random.Range(0, 2 * correct_answer);
+                if (operand_one % 10 == 0 || range == 10) {
+                    operand_two = Random.Range(0, range);
                 }
+                else {
+                    int[] possible_mults = new int[] {0, 1, 2, 10, 100, range};
+                    operand_two = possible_mults[Random.Range(0, 5)];
+                }
+                correct_answer = operand_one * operand_two;
+
+                int[] possible_incorrect_answers = new int[] {
+                    correct_answer - 10,
+                    correct_answer + 10,
+                    correct_answer * 2,
+                    correct_answer * 10,
+                    correct_answer / 2,
+                    correct_answer / 10
+                };
+                incorrect_answer = possible_incorrect_answers[Random.Range(0, 11)];
 
                 problem = operand_one.ToString() + " * " + operand_two.ToString() + " = ?";
                 break;
             case 3:
                 // Division
-                correct_answer = operand_one / operand_two;
+                operand_two = Random.Range(1, range);
+                while (operand_one % operand_two != 0) {
+                    operand_one = Random.Range(0, range);
+                    operand_two = Random.Range(1, range);
+                }
+                correct_answer = (operand_one / operand_two);
                 incorrect_answer = Random.Range(0, 2 * correct_answer);
-                while (incorrect_answer == correct_answer) {
-                    incorrect_answer = Random.Range(0, 2 * correct_answer);
+                if (incorrect_answer == correct_answer) {
+                    incorrect_answer++;
                 }
 
                 problem = operand_one.ToString() + " / " + operand_two.ToString() + " = ?";
@@ -131,42 +141,48 @@ public class BubbleTrigger : MonoBehaviour
         if (other.gameObject.name.Contains("plane")) {
             Debug.Log("Plane Collision");
 
-            Dictionary<string, string> prob_and_sols = GenerateProblem();
-
-            Vector3 problem_bubble_pos = other.transform.position;
-            problem_bubble_pos.z += bubble_spawn_dist;
-            problem_bubble_pos.y -= bubble_spawn_height_offset;
-
-            Vector3 correct_bubble_pos = problem_bubble_pos;
-            correct_bubble_pos.y -= (bubble_spawn_height_offset + 3);
-            Vector3 incorrect_bubble_pos = correct_bubble_pos;
-
-            int is_correct_bubble_on_right = Random.Range(0, 2);
-            if (is_correct_bubble_on_right == 1) {
-                correct_bubble_pos.x += 3;
-                incorrect_bubble_pos.x -= 3;
-            }
-            else {
-                correct_bubble_pos.x -= 3;
-                incorrect_bubble_pos.x += 3;
-            }
-            
-            GameObject problem_bubble = Instantiate(bubble, problem_bubble_pos, Quaternion.identity);
-            problem_bubble.name = "PROBLEM_BUBBLE";
-            problem_bubble.GetComponent<BubbleHandler>().SetType(0);
-            problem_bubble.GetComponent<BubbleHandler>().SetText(prob_and_sols["problem"]);
-
-            GameObject correct_bubble = Instantiate(bubble, correct_bubble_pos, Quaternion.identity);
-            correct_bubble.name = "CORRECT_BUBBLE";
-            correct_bubble.GetComponent<BubbleHandler>().SetType(1);
-            correct_bubble.GetComponent<BubbleHandler>().SetText(prob_and_sols["correct_answer"]);
-
-            GameObject incorrect_bubble = Instantiate(bubble, incorrect_bubble_pos, Quaternion.identity);
-            incorrect_bubble.name = "INCORRECT_BUBBLE";
-            incorrect_bubble.GetComponent<BubbleHandler>().SetType(2);
-            incorrect_bubble.GetComponent<BubbleHandler>().SetText(prob_and_sols["incorrect_answer"]);
-
-            
+            StartCoroutine(SpawnBubble(other));
         }
+    }
+
+    IEnumerator SpawnBubble(Collider other) {
+        Debug.Log("BEFORE");
+        Dictionary<string, string> prob_and_sols = GenerateProblem();
+
+        yield return new WaitForSeconds(0.5f);
+        Debug.Log("After");
+
+        Vector3 problem_bubble_pos = other.transform.position;
+        problem_bubble_pos.z += bubble_spawn_dist;
+        problem_bubble_pos.y -= bubble_spawn_height_offset;
+
+        Vector3 correct_bubble_pos = problem_bubble_pos;
+        correct_bubble_pos.y -= (bubble_spawn_height_offset + 3);
+        Vector3 incorrect_bubble_pos = correct_bubble_pos;
+
+        int is_correct_bubble_on_right = Random.Range(0, 2);
+        if (is_correct_bubble_on_right == 1) {
+            correct_bubble_pos.x += 3;
+            incorrect_bubble_pos.x -= 3;
+        }
+        else {
+            correct_bubble_pos.x -= 3;
+            incorrect_bubble_pos.x += 3;
+        }
+            
+        GameObject problem_bubble = Instantiate(bubble, problem_bubble_pos, Quaternion.identity);
+        problem_bubble.name = "PROBLEM_BUBBLE";
+        problem_bubble.GetComponent<BubbleHandler>().SetType(0);
+        problem_bubble.GetComponent<BubbleHandler>().SetText(prob_and_sols["problem"]);
+
+        GameObject correct_bubble = Instantiate(bubble, correct_bubble_pos, Quaternion.identity);
+        correct_bubble.name = "CORRECT_BUBBLE";
+        correct_bubble.GetComponent<BubbleHandler>().SetType(1);
+        correct_bubble.GetComponent<BubbleHandler>().SetText(prob_and_sols["correct_answer"]);
+
+        GameObject incorrect_bubble = Instantiate(bubble, incorrect_bubble_pos, Quaternion.identity);
+        incorrect_bubble.name = "INCORRECT_BUBBLE";
+        incorrect_bubble.GetComponent<BubbleHandler>().SetType(2);
+        incorrect_bubble.GetComponent<BubbleHandler>().SetText(prob_and_sols["incorrect_answer"]);
     }
 }

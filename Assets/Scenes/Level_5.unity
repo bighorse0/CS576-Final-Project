@@ -428,7 +428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd659b4b3b5b9542a6f261468ae350e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hardness: 1
+  hardness: 5
   bubble: {fileID: 660193701}
   bubble_spawn_dist: 50
   bubble_spawn_height_offset: 1
@@ -1142,6 +1142,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3621173591946684759, guid: 443644793b6b07d4d990d7e6c7df5ab6, type: 3}
+      propertyPath: base_velocity.z
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 7183178692777153080, guid: 443644793b6b07d4d990d7e6c7df5ab6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 11.8
@@ -1228,7 +1232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd659b4b3b5b9542a6f261468ae350e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hardness: 1
+  hardness: 5
   bubble: {fileID: 660193701}
   bubble_spawn_dist: 50
   bubble_spawn_height_offset: 1
@@ -16235,7 +16239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd659b4b3b5b9542a6f261468ae350e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hardness: 2
+  hardness: 5
   bubble: {fileID: 660193701}
   bubble_spawn_dist: 40
   bubble_spawn_height_offset: 1.5
@@ -17610,7 +17614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd659b4b3b5b9542a6f261468ae350e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hardness: 2
+  hardness: 5
   bubble: {fileID: 660193701}
   bubble_spawn_dist: 40
   bubble_spawn_height_offset: 1.5
@@ -21715,7 +21719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd659b4b3b5b9542a6f261468ae350e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hardness: 2
+  hardness: 5
   bubble: {fileID: 660193701}
   bubble_spawn_dist: 40
   bubble_spawn_height_offset: 1.5
@@ -21837,7 +21841,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd659b4b3b5b9542a6f261468ae350e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hardness: 1
+  hardness: 5
   bubble: {fileID: 660193701}
   bubble_spawn_dist: 50
   bubble_spawn_height_offset: 1
@@ -22180,7 +22184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd659b4b3b5b9542a6f261468ae350e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hardness: 1
+  hardness: 5
   bubble: {fileID: 660193701}
   bubble_spawn_dist: 50
   bubble_spawn_height_offset: 1
@@ -22385,7 +22389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd659b4b3b5b9542a6f261468ae350e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hardness: 1
+  hardness: 5
   bubble: {fileID: 660193701}
   bubble_spawn_dist: 50
   bubble_spawn_height_offset: 1
@@ -22507,7 +22511,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd659b4b3b5b9542a6f261468ae350e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hardness: 1
+  hardness: 5
   bubble: {fileID: 660193701}
   bubble_spawn_dist: 50
   bubble_spawn_height_offset: 1

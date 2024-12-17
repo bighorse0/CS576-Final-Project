@@ -43,9 +43,9 @@ public class BatSpawner : MonoBehaviour
             {
                 // deflection shooting
                 Vector3 target_pos = plane.transform.position;
-                Vector3 target_velocity = plane.GetComponent<PlaneController>().movement_direction * plane.GetComponent<PlaneController>().RB.velocity.magnitude * 1.3f;
+                Vector3 target_velocity = plane.GetComponent<PlaneController>().movement_direction * plane.GetComponent<PlaneController>().RB.velocity.magnitude * 1.2f;
                 float look_ahead_time = 0.0f;
-                int max_iterations = 100000;
+                int max_iterations = 1000;
 
                 for (int iteration = 0; iteration < max_iterations; ++iteration) {
                     float old_look_ahead_time = look_ahead_time;

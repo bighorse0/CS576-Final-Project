@@ -12,6 +12,10 @@ using UnityEditor.Rendering;
 
 public class PlaneController : MonoBehaviour
 {
+    private AudioSource source;
+    public AudioClip correct;
+    public AudioClip incorrect;
+
     public float horizontal_rotation_sens;
     public float vertical_rotation_sens;
     public float gravitational_acc;
@@ -43,6 +47,8 @@ public class PlaneController : MonoBehaviour
 
     void Start()
     {
+        source = GetComponent<AudioSource>();
+
         horizontal_input = 0.0f;
         vertical_input   = 0.0f;
 
@@ -244,11 +250,13 @@ public class PlaneController : MonoBehaviour
     {
         Vector3 boost_velocity = boost_amt * RB.velocity.normalized;
         RB.velocity += boost_velocity;
+        source.PlayOneShot(correct);
     }
 
     public void Punish()
     {
         Vector3 punish_velocity = Mathf.Min(punish_amt, RB.velocity.magnitude) * RB.velocity.normalized;
         RB.velocity -= punish_velocity;
+        source.PlayOneShot(incorrect);
     }
 }
