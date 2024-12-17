@@ -32,8 +32,11 @@ This project is currently working on version 2022.3.46f1
 - Main Menu Music: https://onemansymphony.bandcamp.com/album/a-new-days-hurry-free
 - Level_1 Scenery: https://kenney.nl/assets/nature-kit
 - Level_2 Scenery: 
-- Level_3 Scenery: 
+- Level_3 Scenery: https://kenney.nl/assets/mini-dungeon
 - Level_4 Scenery: 
+	- https://kenney.nl/assets/city-kit-commercial 
+	- https://kenney.nl/assets/car-kit
+	- https://kenney.nl/assets/city-kit-roads
 - Level_5 Scenery: https://kenney.nl/assets/fantasy-town-kit
 - Eagle Model/Animations: https://assetstore.unity.com/packages/3d/characters/animals/birds/egypt-pack-eagle-140079
 	- Eagle Screech Sound: https://www.youtube.com/watch?v=OLn1i0UxQGE
