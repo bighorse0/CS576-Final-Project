@@ -10,6 +10,7 @@ public class GroundHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1.0f;
         crash.AddListener(GameObject.FindGameObjectWithTag("level_controller").GetComponent<GameController>().Fail);
     }
 
@@ -22,6 +23,10 @@ public class GroundHandler : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.name.Contains("plane")) {
             crash.Invoke();
+            Time.timeScale = 0.0f;
+        }
+        else if (other.gameObject.name.Contains("snowball")) {
+            Destroy(other.transform.gameObject);
         }
     }
 }
