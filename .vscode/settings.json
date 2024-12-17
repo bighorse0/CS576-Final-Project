@@ -51,5 +51,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Floating Point.sln"
+    "dotnet.defaultSolution": "Floating Point.sln",
+    "dotnet.preferCSharpExtension": true
 }

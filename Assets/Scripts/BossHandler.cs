@@ -10,12 +10,15 @@ public class BossHandler : MonoBehaviour
     public float spawn_distance;
     public GameObject plane;
     public bool triggered;
+    public AudioClip clip;
 
+    private AudioSource source;
     private bool driving;
 
     void Start()
     {
         triggered = false;
+        source = GetComponent<AudioSource>();  
     }
 
     void Update()
@@ -23,8 +26,9 @@ public class BossHandler : MonoBehaviour
         if (triggered)
         {
             triggered = false;
+            source.PlayOneShot(clip);
             Vector3 position = plane.transform.position;
-            position.x = (float)Random.Range(0, 2) * 14.0f - 7.0f;
+            position.x = (float)Random.Range(0, 2) * 15.0f - 7.5f;
             position.y = 0.5f;
             position.z += spawn_distance;
             transform.position = position;
