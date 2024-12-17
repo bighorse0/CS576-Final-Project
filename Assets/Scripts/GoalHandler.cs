@@ -12,6 +12,7 @@ public class GoalHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1.0f;
         win.AddListener(GameObject.FindGameObjectWithTag("level_controller").GetComponent<GameController>().Win);
     }
 
@@ -24,6 +25,7 @@ public class GoalHandler : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.name.Contains("plane")) {
             win.Invoke();
+            Time.timeScale = 0.0f;
         }
     }
 }
