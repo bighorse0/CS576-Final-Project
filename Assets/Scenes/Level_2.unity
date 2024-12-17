@@ -91601,6 +91601,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a4493c05a4dd4148aa75b6c4ff834d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  correct: {fileID: 8300000, guid: 4ab6280b23ae046c392500d25117ee00, type: 3}
+  incorrect: {fileID: 8300000, guid: 45f3f2191e0d74eae8697e058bcb999b, type: 3}
   horizontal_rotation_sens: 50
   vertical_rotation_sens: 10
   gravitational_acc: 11

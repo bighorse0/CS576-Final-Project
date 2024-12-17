@@ -12,6 +12,10 @@ using UnityEditor.Rendering;
 
 public class PlaneControllerSnow : MonoBehaviour
 {
+    private AudioSource source;
+    public AudioClip correct;
+    public AudioClip incorrect;
+
     public float horizontal_rotation_sens;
     public float vertical_rotation_sens;
     public float gravitational_acc;
@@ -36,6 +40,8 @@ public class PlaneControllerSnow : MonoBehaviour
         //else {
         //    music.UnPause();
         //}
+
+        source = GetComponent<AudioSource>();
 
         velocity_text = GameObject.FindGameObjectWithTag("velocity_text");
         horizontal_input = 0.0f;
@@ -148,11 +154,13 @@ public class PlaneControllerSnow : MonoBehaviour
         // RB.velocity += boost_velocity;
         Vector3 boost_velocity = boost_amt * RB.velocity.normalized;
         RB.velocity += boost_velocity;
+        source.PlayOneShot(correct);
     }
 
     public void Punish()
     {
         Vector3 punish_velocity = Mathf.Min(punish_amt, RB.velocity.magnitude) * RB.velocity.normalized;
         RB.velocity -= punish_velocity;
+        source.PlayOneShot(incorrect);
     }
 }
