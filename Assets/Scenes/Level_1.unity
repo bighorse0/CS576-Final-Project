@@ -18729,6 +18729,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 4ab6280b23ae046c392500d25117ee00, type: 3}
     - target: {fileID: 3621173591946684759, guid: 443644793b6b07d4d990d7e6c7df5ab6, type: 3}
+      propertyPath: boost_amt
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3621173591946684759, guid: 443644793b6b07d4d990d7e6c7df5ab6, type: 3}
       propertyPath: incorrect
       value: 
       objectReference: {fileID: 8300000, guid: 45f3f2191e0d74eae8697e058bcb999b, type: 3}
