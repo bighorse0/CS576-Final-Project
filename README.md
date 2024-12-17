@@ -4,7 +4,14 @@ This project is currently working on version 2022.3.46f1
 
 ## Implementation
 **Isaiah Baker:**
-- 
+- BubbleHandlerSnow.cs
+- BubbleTriggerSnow.cs
+- PlaneControllerSnow.cs
+- Frosty.cs
+- Snowball.cs
+- GoalHandler.cs line 15, 28
+- GroundHandler.cs line 13, 26
+- Snow Scene
 
 **Willy Chen:**
 - PlaneController.cs
@@ -57,4 +64,11 @@ This project is currently working on version 2022.3.46f1
 - Level_5 Scenery: 
 	- https://kenney.nl/assets/fantasy-town-kit
 	- https://kenney.nl/assets/mini-characters-1
-- 
+- Level_Snow :
+ 	- Music:
+    	 	- Title:Walking Home by Alex-Productions
+	 	- URL: https://www.chosic.com/download-audio/58158/
+     	- Scenery:
+      		- https://kenney.nl/assets/holiday-kit
+        	- https://kenney.nl/assets/platformer-kit
+         	- https://kenney.nl/assets/nature-kit
