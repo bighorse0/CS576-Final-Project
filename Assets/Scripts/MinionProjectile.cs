@@ -43,7 +43,7 @@ public class MinionProjectile : MonoBehaviour
             source.PlayOneShot(projectile_hit_sound);
             projectile_hit.Invoke();
         }
-        else if (other.gameObject.name.Contains("bat")) {
+        else if (other.gameObject.name.Contains("projectile")) {
 
         }
         else {

@@ -75,10 +75,10 @@ public class MinionAttack: MonoBehaviour
             if (plane_is_accessible) {
                 if ((plane.gameObject.transform.position.z < transform.position.z)) {
                     //Debug.Log("Spawn BAT");
-                    GameObject new_bat = Instantiate(projectile_prefab, projectile_starting_pos, Quaternion.Euler(0.0f, 180.0f, 0.0f));
-                    new_bat.GetComponent<Bat>().direction = shooting_direction;
-                    new_bat.GetComponent<Bat>().velocity = projectile_velocity;
-                    new_bat.GetComponent<Bat>().birth_time = Time.time;
+                    GameObject bullet = Instantiate(projectile_prefab, projectile_starting_pos, Quaternion.Euler(0.0f, 180.0f, 0.0f));
+                    bullet.GetComponent<MinionProjectile>().direction = shooting_direction;
+                    bullet.GetComponent<MinionProjectile>().velocity = projectile_velocity;
+                    bullet.GetComponent<MinionProjectile>().birth_time = Time.time;
                 }
             }
             yield return new WaitForSeconds(shooting_delay);
