@@ -35,8 +35,8 @@ This project is currently working on version 2022.3.46f1
 - Plane Model: https://sketchfab.com/3d-models/paper-plane-c8d4716dd4cb4da7b00eed5a632e2e2
 - Main Menu Music: https://onemansymphony.bandcamp.com/album/a-new-days-hurry-free
 - Pause Menu Music: https://pixabay.com/sound-effects/intense-fantasy-soundtrack-201079/
-- Correct Answer Sound Effect: 
-- Wrong Answer Sound Effect: 
+- Correct Answer Sound Effect: https://pixabay.com/sound-effects/magic-ascend-3-259526/
+- Wrong Answer Sound Effect: https://pixabay.com/sound-effects/wrong-answer-21-199825/
 - Crash Sound Effect: https://freesound.org/people/drooler/sounds/508594/
 - Win Sound Effect: https://freesound.org/people/Fupicat/sounds/521645/
 - Level_1 Scenery: https://kenney.nl/assets/nature-kit
