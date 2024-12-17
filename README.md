@@ -8,6 +8,10 @@ This project is currently working on version 2022.3.46f1
 
 **Willy Chen:**
 - PlaneController.cs
+- BossTrigger.cs, BossHandler.cs
+- RoundaboutHandler.cs
+- TrafficLightsTrigger.cs
+- TruckKunTrigger.cs, TruckKunHandler.cs
 
 **Nguyen Nguyen:**
 - 
@@ -30,6 +34,11 @@ This project is currently working on version 2022.3.46f1
 ## Sources
 - Plane Model: https://sketchfab.com/3d-models/paper-plane-c8d4716dd4cb4da7b00eed5a632e2e2
 - Main Menu Music: https://onemansymphony.bandcamp.com/album/a-new-days-hurry-free
+- Pause Menu Music: https://pixabay.com/sound-effects/intense-fantasy-soundtrack-201079/
+- Correct Answer Sound Effect: 
+- Wrong Answer Sound Effect: 
+- Crash Sound Effect: https://freesound.org/people/drooler/sounds/508594/
+- Win Sound Effect: https://freesound.org/people/Fupicat/sounds/521645/
 - Level_1 Scenery: https://kenney.nl/assets/nature-kit
 - Level_2 Scenery: 
 - Level_3 Scenery: https://kenney.nl/assets/mini-dungeon
