@@ -176,7 +176,7 @@ public class PlaneController : MonoBehaviour
         if (horizontal_input == 0 && angles.z > 0)
         {
             float targetAngle = angles.z > 180.0f ? 360.0f : 0.0f;
-            angles.z = Mathf.SmoothDampAngle(angles.z, targetAngle, ref roll_angular_velocity, 0.3f);
+            angles.z = Mathf.SmoothDampAngle(angles.z, targetAngle, ref roll_angular_velocity, 0.1f);
         }
 
         if (bound_angle_z < angles.z && angles.z < 180.0f)
@@ -195,6 +195,7 @@ public class PlaneController : MonoBehaviour
     {
         if (in_animation) return;
 
+        float horizontal_factor = horizontal_input;
         float lift_factor  = vertical_input;
         float pitch_angle = (transform.eulerAngles.x > 180.0f ? 360.0f : 0.0f) - transform.eulerAngles.x;
 
@@ -210,12 +211,11 @@ public class PlaneController : MonoBehaviour
             lift_factor = Mathf.Min(vertical_input, 0.0f);
         }
 
-        if (currently_stalling)
-        {
-            lift_factor = 0.0f;
-        }
-
-        Vector3 horizontal_force = horizontal_input * horizontal_rotation_sens * transform.right;
+        float scaling = currently_stalling ? 0.0f : Mathf.Max(RB.velocity.magnitude / base_velocity.magnitude, 1.0f);
+        horizontal_factor *= scaling;
+        lift_factor *= scaling;
+        
+        Vector3 horizontal_force = horizontal_factor * horizontal_rotation_sens * transform.right;
         Vector3 lift = lift_factor * vertical_rotation_sens * transform.up;
         Vector3 drag = -drag_factor * gravitational_acc * Mathf.Abs(Mathf.Sin(transform.eulerAngles.x)) * transform.forward;
         Vector3 net_force = horizontal_force + lift + drag;
